@@ -1,10 +1,16 @@
-
+import {NavLink} from 'react-router-dom';
 
 function Header() {
     return (
-      <div>
+      <header>
+        <h3>LOGO</h3>
+
+        <nav>
+          <NavLink to='/'>Home</NavLink>
+          <NavLink to='/Contact'>Contact</NavLink>
+        </nav>
         
-      </div>
+      </header>
     );
   }
   
