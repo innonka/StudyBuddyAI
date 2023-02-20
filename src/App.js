@@ -1,20 +1,18 @@
-import Home from './pages/Home';
-import Contact from './pages/Contact';
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-import './App.css';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
     <>
-    <Header />
+      <Header />
 
-    <Footer />
+      <Footer />
     </>
-
-  )
-
+  );
 }
 
 export default App;
