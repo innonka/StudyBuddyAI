@@ -26,7 +26,7 @@ function Home() {
   };
 
   /*Settings for openai key and fetch request and response*/
-  const apiKey = "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";
+  const apiKey = "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";
 
   const promptAI = () => {
     const configuration = new Configuration({
@@ -38,7 +38,8 @@ function Home() {
       .createCompletion({
         model: "text-davinci-003",
         prompt:
-          userQuestion /*Passing the user input as the question to openai*/,
+          userQuestion, /*Passing the user input as the question to openai*/
+          max_tokens: 500,
       })
       .then((res) => {
         setModalOpen(true);
