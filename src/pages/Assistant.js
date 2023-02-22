@@ -53,10 +53,14 @@ function Assistant() {
         setResponseDivClassName("");
         setAiResponse(res.data.choices[0].text);
         setIsBusy(false);
-        history.unshift({ q: userQuestion, a: res.data.choices[0].text });  // add to begining of array
+        history.unshift({ q: userQuestion, a: res.data.choices[0].text }); // add to begining of array
         const newHistory = history.slice(0, 10);
         setHistory(newHistory);
         localStorage.setItem(storageKey, JSON.stringify(newHistory));
+      })
+      .catch((err) => {
+        alert(err);
+        setIsBusy(false);
       });
   };
 
