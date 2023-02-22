@@ -26,7 +26,7 @@ function Home() {
   };
 
   /*Settings for openai key and fetch request and response*/
-  const apiKey = "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";
+  const apiKey = "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";
 
   const promptAI = () => {
     const configuration = new Configuration({
