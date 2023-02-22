@@ -29,6 +29,8 @@ function Assistant() {
   /*Settings for openai key and fetch request and response*/
   const apiKey = process.env.REACT_APP_AI_API;
 
+  console.log(apiKey);
+
   const promptAI = () => {
     //setResponseDivClassName('hidden');
     setIsBusy(true);
