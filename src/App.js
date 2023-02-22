@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Calendar from "./pages/Calendar";
+import Assistant from "./pages/Assistant";
 
 function App() {
   return (
@@ -96,6 +98,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/assistant" element={<Assistant />} />
       </Routes>
 
       <Footer />
