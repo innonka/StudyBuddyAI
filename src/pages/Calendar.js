@@ -1,21 +1,46 @@
 import { useEffect, useState } from "react";
 import dateFormat from "dateformat";
 
+const storageKey = "study-buddy-calendar-events";
+
 function Calendar() {
+  let initCalled = false;
+
   const [activeMonth, setActiveMonth] = useState(new Date());
 
   const [selectedDate, setSelectedDate] = useState(activeMonth.getDate());
 
   const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-  const [calendarTitle, setCalendarTitle] = useState("");
+  let eventString = localStorage.getItem(storageKey);
+  if (eventString == null || eventString == "") {
+    eventString = "[]";
+  }
 
-  const [events, setEvents] = useState([]);
-
+  const [events, setEvents] = useState(JSON.parse(eventString));
   const [weeks, setWeeks] = useState([]);
 
+  const getEvents = () => {
+    const date = new Date(
+      activeMonth.getFullYear(),
+      activeMonth.getMonth(),
+      selectedDate
+    );
+    const dateKey = dateFormat(date, "ddMMyyyy");
+
+    const currentDateKey = dateFormat(date, "ddMMyyyy");
+
+    const todayEvents = events.filter((e) => e.dateKey == currentDateKey);
+    return todayEvents;
+  };
+
   const updateCalendar = () => {
-    weeks.splice(0, weeks.length); // empty the array
+    if (initCalled) {
+      return;
+    }
+    initCalled = true;
+
+    const newWeeks = [];
 
     const startOfMonth = new Date(
       activeMonth.getFullYear(),
@@ -41,37 +66,19 @@ function Calendar() {
       if (tempDate.getDay() == 0) {
         // start of new week
         if (i > 1) {
-          weeks.push(currentWeek);
+          newWeeks.push(currentWeek);
         }
         currentWeek = {};
       }
-      currentWeek[daysOfWeek[tempDate.getDay()]] = { day: i, date: tempDate };
+      currentWeek[daysOfWeek[tempDate.getDay()]] = i;
     }
-    weeks.push(currentWeek);
-    //setWeeks(weeks);
+    newWeeks.push(currentWeek);
+    setWeeks(newWeeks);
   };
 
   useEffect(() => {
     updateCalendar();
   }, [activeMonth]);
-
-  //updateCalendar();
-
-  useEffect(() => {
-    setCalendarTitle("Calendar"); // triggers react to render everything
-    if (events.length > 0) {
-      return;
-    }
-    events.push({
-      time: "9:00 AM",
-      subject: "Front-end with Tailwind",
-      description: "Learn about tailwind",
-      id: uuidv4(),
-    });
-    console.log(events);
-    updateCalendar();
-    console.log("i fire once");
-  }, []);
 
   const updateMonth = (value) => {
     setActiveMonth(
@@ -81,34 +88,62 @@ function Calendar() {
   };
 
   const showDay = (day) => {
-    if (day?.day == selectedDate) {
+    if (day == selectedDate) {
       return (
         <p className="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full">
-          {day?.day}
+          {day}
         </p>
       );
     } else {
       return (
         <p className="text-base text-gray-500 dark:text-gray-100 font-medium rounded-full w-8 h-8">
-          {day?.day}
+          {day}
         </p>
       );
     }
   };
 
   const onDateClick = (day) => {
-    console.log("clicked on ", day);
-    setSelectedDate(day.day);
+    if (day) {
+      setSelectedDate(day);
+    }
+  };
+
+  const addEventClick = () => {
+    const date = new Date(
+      activeMonth.getFullYear(),
+      activeMonth.getMonth(),
+      selectedDate
+    );
+    const dateKey = dateFormat(date, "ddMMyyyy");
+
+    const time = prompt("Enter time", "10:00 AM");
+    const subject = prompt("Subject");
+    const description = prompt("Description");
+
+    const newEvents = events.map((x) => x);
+    newEvents.push({
+      time: time,
+      subject: subject,
+      description: description,
+      id: uuidv4(),
+      date: date,
+      dateKey: dateKey,
+    });
+
+    setEvents(newEvents);
+
+    localStorage.setItem(storageKey, JSON.stringify(newEvents));
   };
 
   return (
     <div className="text-2xl p-4 mx-auto  max-w-2xl ">
       <h1 className="text-center text-2xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-4">
-        {calendarTitle}
+        Calendar
       </h1>
 
       <div className="flex items-center justify-center py-8 px-4">
-        <div className="max-w-sm w-full shadow-lg">
+        <div className="max-w-md w-full shadow-lg">
           <div className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t">
             <div className="px-4 flex items-center justify-between">
               <span
@@ -196,9 +231,15 @@ function Calendar() {
               </table>
             </div>
           </div>
-          <div className="md:py-8 py-5 md:px-16 px-5 dark:bg-gray-700 bg-gray-50 rounded-b">
+          <div className="md:p-4 p-2 dark:bg-gray-700 bg-gray-50 rounded-b">
+            <button
+              onClick={addEventClick}
+              className="mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Add Event
+            </button>
             <div className="px-4">
-              {events.map((event) => (
+              {getEvents().map((event) => (
                 <div
                   key={event.id}
                   className="border-b pb-4 border-gray-400 border-dashed"
