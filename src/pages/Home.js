@@ -1,5 +1,8 @@
 /*Import of Packages*/
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { OpenAIApi, Configuration } from "openai";
+
 
 function Home() {
   /*useState to track user input question*/
