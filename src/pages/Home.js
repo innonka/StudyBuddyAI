@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { OpenAIApi, Configuration } from "openai";
 
-
 function Home() {
   /*useState to track user input question*/
   const [userQuestion, setUserQuestion] = useState("");
@@ -31,8 +30,8 @@ function Home() {
       .createCompletion({
         model: "text-davinci-003",
         prompt:
-          userQuestion, /*Passing the user input as the question to openai*/
-          max_tokens: 500,
+          userQuestion /*Passing the user input as the question to openai*/,
+        max_tokens: 500,
       })
       .then((res) => {
         setModalOpen(true);
