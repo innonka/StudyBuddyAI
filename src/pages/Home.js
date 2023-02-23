@@ -1,48 +1,7 @@
 /*Import of Packages*/
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
-import { OpenAIApi, Configuration } from "openai";
 
 function Home() {
-  /*useState to track user input question*/
-  const [userQuestion, setUserQuestion] = useState("");
-
-  /*useState to display and hide modal holding AI response to user question*/
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState("");
-  const [showDiv, setShowDiv] = useState(true);
-
-  /*function to get user input*/
-  const handleChange = (event) => {
-    setUserQuestion(event.target.value);
-  };
-
-  /*Settings for openai key and fetch request and response*/
-  const apiKey = "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";
-
-  const promptAI = () => {
-    const configuration = new Configuration({
-      apiKey,
-    });
-    const openai = new OpenAIApi(configuration);
-
-    openai
-      .createCompletion({
-        model: "text-davinci-003",
-        prompt:
-          userQuestion /*Passing the user input as the question to openai*/,
-        max_tokens: 500,
-      })
-      .then((res) => {
-        setModalOpen(true);
-        setModalData(
-          res.data.choices[0].text
-        ); /*Setting the response from the API to display in a modal div*/
-        setShowDiv(true);
-        //console.log(res.data.choices[0].text);
-      });
-  };
-
   return (
     /*Input area for user to type in and modal for AI response*/
     <>
