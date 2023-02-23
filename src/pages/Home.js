@@ -1,15 +1,7 @@
 /*Import of Packages*/
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
-
-import { Configuration, OpenAIApi } from "openai";
-
-/*Basic Styling of The Modal Div*/
-const styles = {
-  modal: {
-    border: "solid 1px #ccc",
-    marginTop: "10px",
-  },
-};
+import { OpenAIApi, Configuration } from "openai";
 
 function Home() {
   /*useState to track user input question*/
@@ -26,7 +18,7 @@ function Home() {
   };
 
   /*Settings for openai key and fetch request and response*/
-  const apiKey = "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";
+  const apiKey = "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";
 
   const promptAI = () => {
     const configuration = new Configuration({
@@ -38,8 +30,8 @@ function Home() {
       .createCompletion({
         model: "text-davinci-003",
         prompt:
-          userQuestion, /*Passing the user input as the question to openai*/
-          max_tokens: 500,
+          userQuestion /*Passing the user input as the question to openai*/,
+        max_tokens: 500,
       })
       .then((res) => {
         setModalOpen(true);
@@ -68,38 +60,20 @@ function Home() {
               <span className="text-blue-600">Your AI Assistant</span>
             </h1>
 
-            <input
-              className="mb-2 outline-none focus:ring-offset-2 focus:ring-2 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={userQuestion}
-              onChange={handleChange}
-              type="text"
-              placeholder="Type in your question"
-            ></input>
-
-            <button
-              onClick={promptAI}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            >
-              Submit
-            </button>
+            <div className="flex flex-row place-content-evenly">
+              <NavLink to="/calendar">
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                  Calendar
+                </button>
+              </NavLink>
+              <NavLink to="/assistant">
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                  AI Assistant
+                </button>
+              </NavLink>
+            </div>
           </div>
         </div>
-
-        {modalOpen && showDiv && (
-          <div style={styles.modal}>
-            <p>
-              <strong>Answer:</strong> {modalData}
-            </p>
-            <button
-              onClick={() => {
-                setShowDiv(false);
-                setUserQuestion("");
-              }}
-            >
-              Close
-            </button>
-          </div>
-        )}
       </div>
     </>
   );

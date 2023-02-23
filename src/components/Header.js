@@ -14,6 +14,26 @@ function Header() {
             Home
           </button>
         </NavLink>
+        <NavLink to="/Calendar">
+          <button
+            type="button"
+            className="inline-block px-6 py-2.5 mr-2 bg-transparent text-white font-medium text-xs leading-tight uppercase rounded hover:text-blue-600 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200 focus:text-black transition duration-150 ease-in-out"
+            data-mdb-ripple="true"
+            data-mdb-ripple-color="light"
+          >
+            Calendar
+          </button>
+        </NavLink>
+        <NavLink to="/Assistant">
+          <button
+            type="button"
+            className="inline-block px-6 py-2.5 mr-2 bg-transparent text-white font-medium text-xs leading-tight uppercase rounded hover:text-blue-600 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200 focus:text-black transition duration-150 ease-in-out"
+            data-mdb-ripple="true"
+            data-mdb-ripple-color="light"
+          >
+            Assistant
+          </button>
+        </NavLink>
         <NavLink to="/Contact">
           <button
             type="button"
